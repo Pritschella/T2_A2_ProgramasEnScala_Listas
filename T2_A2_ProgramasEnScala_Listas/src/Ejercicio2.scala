@@ -2,11 +2,12 @@ import scala.collection.mutable.ListBuffer
 import scala.io.StdIn._
 
 /*
- * Escriba un programa que permita crear una lista de palabras y que, a continuación, pida una
-		palabra y diga cuántas veces aparece esa palabra en la lista.
+ * Escriba un programa que permita crear una lista de palabras y que, a continuación, pida dos
+		palabras y sustituya la primera por la segunda en la lista.
  */
 
-object Ejercicio1 {
+object Ejercicio2 {
+  
   def crearLista() : ListBuffer[String] = {
     var listaPalabras = new ListBuffer[String]()
     println("¿Cuantas palabras desea ingresar  a la lista?")
@@ -19,25 +20,29 @@ object Ejercicio1 {
   }
   
   def pedirPalabra() : String = {
-    println("Ingrese la palabra que desea buscar: ")
+    println("Ingrese la palabra a modificar: ")
     val palabra = readLine()
     palabra
   }
   
-  def numRepDePalabras(palabra: String, lista: => ListBuffer[String]) : Unit = {
+  def sustitucionPalabra(palabra1: String, palabra2: String, lista: => ListBuffer[String]) : ListBuffer[String] = {
     var sum = 0
-    for(elemento <- lista){
-      if(elemento == palabra){
+    for(i <- 0 until lista.size){
+      if(lista(i) == palabra1){
         sum += 1
+        lista.remove(i)
+        lista.insert(i, palabra2)
       }
     }
-    println("La palabra " + palabra + " aparece " + sum + " veces en la lista")
+    lista
   }
   
   def main(args: Array[String]): Unit = {
     var listaPalabras = crearLista()
     println("\nLa lista es: " + listaPalabras)
-    numRepDePalabras(pedirPalabra, listaPalabras)
+    
+    listaPalabras = sustitucionPalabra(pedirPalabra(), pedirPalabra(), listaPalabras)
+    println("\nLa lista modificada es: " + listaPalabras)
   }
   
-}//Object
+}
