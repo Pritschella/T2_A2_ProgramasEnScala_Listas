@@ -46,6 +46,22 @@ object Ejercicio5 {
     lista
   }
   
+  def eliminarRep(palabra: String, lista: => ListBuffer[String]) : ListBuffer[String] = {
+    var sum = 0
+    for(i <- 0 until lista.size){
+      if(lista(i) == palabra){
+        sum += 1
+      }
+    }
+    if(sum >= 2){
+      for(e <- 0 until sum-1){
+        lista -= palabra
+      }
+    }
+    lista
+  }
+  
+  
   def unionListas(lista1: => ListBuffer[String], lista2: => ListBuffer[String]) : ListBuffer[String] = {
     var palabrasUnidas = lista1
     for(e <- 0 until lista2.size){
@@ -54,27 +70,52 @@ object Ejercicio5 {
     palabrasUnidas
   }
   
-  def listasSinRep(lista1: => ListBuffer[String], lista2: => ListBuffer[String]) : ListBuffer[String] ={
-    var listaN1 = eliminarPalabras(lista1, lista2)
-    var listaN2 = eliminarPalabras(lista2, lista1)
-    var palabrasUniSinRep = listaN1
+  def listasSinRep(lista1: => ListBuffer[String], lista2: => ListBuffer[String]) : Unit ={
+    var listax1 = lista1
+    var listax2 = lista2
+    var listaN1 = eliminarPalabras(listax1, lista2)
+    var listaN2 = eliminarPalabras(listax2, lista1)
+    var palabrasUniSinRep = ListBuffer[String]()
+    palabrasUniSinRep = listaN1
     for(e <- 0 until listaN2.size){
       palabrasUniSinRep += listaN2(e)
     }
-    palabrasUniSinRep
+    println(palabrasUniSinRep)
   }
   
   def main(args: Array[String]): Unit = {
     var listaPalabras1 = crearLista(1)
     var listaPalabras2 = crearLista(2) 
+    
+    var list1=listaPalabras1
+    println(listaPalabras1.size)
+    for(i <- 0 until list1.size-1){
+      print(i)
+      list1=eliminarRep(listaPalabras1(i),listaPalabras1)
+    }
+    println(list1)
+    var list=listaPalabras2
+    for(i <- 0 until listaPalabras2.size-1){
+      list=eliminarRep(listaPalabras2(i),listaPalabras2)
+    }
+    println(list)
+    
     println("Lista1: " + listaPalabras1)
     println("Lista2: " + listaPalabras2)
  
+    
+    
+    var lista1 = new ListBuffer[String]()
+    var lista2 = new ListBuffer[String]()
+    lista1=listaPalabras1.clone()
+    lista2 = listaPalabras2.clone()
     println()
+    
     println("Las listas resultantes son: ")
     println("1) Lista de palabras que aparecen en las dos listas: " + unionListas(listaPalabras1, listaPalabras2))
-    println("2) Lista de palabras que aparecen en la primera lista, pero no en la segunda: " + eliminarPalabras(listaPalabras1, listaPalabras2))
-    println("3) Lista de palabras que aparecen en la segunda lista, pero no en la primera: " + eliminarPalabras(listaPalabras2, listaPalabras1))
+    println("2) Lista de palabras que aparecen en la primera lista, pero no en la segunda: " + eliminarPalabras(listaPalabras1, lista2))
+    
+    println("3) Lista de palabras que aparecen en la segunda lista, pero no en la primera: " + eliminarPalabras(lista2, lista1))
     println("4) Lista de palabras que aparecen en ambas listas sin repeticiones: " + listasSinRep(listaPalabras1, listaPalabras2))
   }
 }
